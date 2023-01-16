@@ -1,24 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useEffect, useState } from "react";
+import Login from "./components/Login.js";
+import { BrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import ChatApp from "./components/ChatApp.js";
 
 function App() {
+  const [user, setUser] = useState({});
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     const response = await fetch("http://localhost:4000/users");
+  //     const data = response.json();
+  //     console.log(data);
+  //     setUsers(data);
+  //   };
+  //   fetchUsers();
+  // });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="App">
+        <a href="/users/login"> Login</a>
+
+        {!loggedIn ? (
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/users/login"
+                element={<Login setLoggedIn={setLoggedIn} setUser={setUser} />}
+              />
+            </Routes>
+          </BrowserRouter>
+        ) : (
+          // {/* All App container */}
+          // {/* ---------------------------------------- */}
+          <ChatApp user={user} />
+        )}
+        {/* ---------------------------------------- */}
+      </div>
+    </>
   );
 }
 

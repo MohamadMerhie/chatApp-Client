@@ -1,0 +1,33 @@
+.searchNewChat{
+position: absolute;
+background-color: rgb(255, 152, 17);
+
+top:50px;
+left: 0px;
+right: 0;
+bottom: -736px;
+display: flex;
+flex-direction: column;
+/* justify-content: center; */
+/* align-items: center; */
+z-index: 10000;
+overflow-y: scroll;
+border-bottom-left-radius: 1rem;
+border-bottom-right-radius: 1rem;
+
+
+}
+.usersSearchSection{
+    
+    width: 50%;
+    height: 90%;
+    
+}
+.chat{
+    padding: 1rem;
+    border-bottom: 1px solid gray;
+    margin: 1rem;
+}
+.search {
+    position: relative;
+}
