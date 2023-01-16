@@ -1,48 +1,48 @@
-// import { useState } from "react";
-// import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 
 const Register = () => {
 
-    // const [email, setEmail] = useState();
-    // const [password, setPassword] = useState();
-    // const [firstName, setFirstName] = useState();
-    // const [lastName, setLastName] = useState();
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [firstName, setFirstName] = useState();
+    const [lastName, setLastName] = useState();
 
-    // const loginUser = async (event) => {
-    //     try {
-    //       event.preventDefault();
-    //       const response = await fetch("http://localhost:4000/users/login", {
-    //         method: "POST",
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify({
-    //           firstName,
-    //           lastName,
-    //           email,
-    //           password,
-    //         }),
-    //         credentials: "include",
-    //       });
-    //       const data = await response.json();
-    //       console.log(data);
-    //       if (response.ok) {
-    //         console.log("logged in successfuly");
-    //         // setLoggedIn(true);
-    //         // setUser(data);
-    //         // console.log(loggedIn);
-    //       }
-    //     } catch (error) {
-    //       console.log({ message: error });
-    //     //   setLoggedIn(false);
-    //     //   console.log(loggedIn);
-    //     }
-    //   };  
+    const registerUser = async (event) => {
+        try {
+          event.preventDefault();
+          const response = await fetch("http://localhost:4000/users/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              firstName,
+              lastName,
+              email,
+              password,
+            }),
+            credentials: "include",
+          });
+          const data = await response.json();
+          console.log(data);
+          if (response.ok) {
+            console.log("logged in successfuly");
+            // setLoggedIn(true);
+            // setUser(data);
+            // console.log(loggedIn);
+          }
+        } catch (error) {
+          console.log({ message: error });
+        //   setLoggedIn(false);
+        //   console.log(loggedIn);
+        }
+      };  
   return (
     <div>
       
       
-      {/* <h1>Register</h1>
-      <form onSubmit={loginUser}>
+      <h1>Register</h1>
+      <form >
         <input
           type="firstName"
           placeholder="first Name"
@@ -68,15 +68,15 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />
-        <Link to="/chatApp">
-          <input type="submit" value="login" />
+        <Link to="/chatApp" onSubmit={registerUser}>
+          <input type="submit" value="register" />
         </Link>
 
-        <Link to="/users/resetpassword">Forget password?</Link>
+
         <br />
-        <Link to="/users/register">Not registered? SignUp</Link>
+        <Link to="/">already registered? SignIn</Link>
       </form>
-     */}
+    
     </div>
   );
 };

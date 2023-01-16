@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Login = ({ setLoggedIn, setUser, loggedIn }) => {
+const Login = ({ setLoggedIn, setUser, setLinkTo }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-
   const loginUser = async (event) => {
     try {
       event.preventDefault();
@@ -14,8 +11,6 @@ const Login = ({ setLoggedIn, setUser, loggedIn }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          firstName,
-          lastName,
           email,
           password,
         }),
@@ -25,33 +20,22 @@ const Login = ({ setLoggedIn, setUser, loggedIn }) => {
       console.log(data);
       if (response.ok) {
         console.log("logged in successfuly");
+        setLinkTo("/chatApp");
         setLoggedIn(true);
         setUser(data);
-        console.log(loggedIn);
       }
     } catch (error) {
       console.log({ message: error });
       setLoggedIn(false);
-      console.log(loggedIn);
+      setLinkTo("/");
     }
   };
 
   return (
     <div>
       <h1>Login</h1>
-      <form>
-        <input
-          type="firstName"
-          placeholder="first Name"
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-        <br />
-        <input
-          type="lastName"
-          placeholder="lastName"
-          onChange={(e) => setLastName(e.target.value)}
-        />
-        <br />
+
+      <form onSubmit={loginUser}>
         <input
           type="email"
           placeholder="Email"
@@ -65,11 +49,9 @@ const Login = ({ setLoggedIn, setUser, loggedIn }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />
-        <Link to="/chatApp" onSubmit={loginUser}>
-          <input type="submit" value="login" />
-          
-        </Link>
-<br />
+        <input type="submit" value="login" />
+
+        <br />
         <Link to="/users/resetpassword">Forget password?</Link>
         <br />
         <Link to="/users/register">Not registered? SignUp</Link>

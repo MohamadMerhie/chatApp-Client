@@ -9,6 +9,7 @@ import Register from "./components/Register";
 function App() {
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
+  const [linkTo, setLinkTo] = useState("");
 
   // useEffect(() => {
   //   const fetchUsers = async () => {
@@ -23,22 +24,28 @@ function App() {
   return (
     <>
       <div className="App">
+        {/* All App container */}
+
         <BrowserRouter>
           <Routes>
             <Route
               path="/"
-              element={<Login setLoggedIn={setLoggedIn} setUser={setUser} loggedIn={loggedIn} />}
+              element={
+                loggedIn ? (
+                  <ChatApp user={user} />
+                ) : (
+                  <Login
+                    setLoggedIn={setLoggedIn}
+                    setUser={setUser}
+                    loggedIn={loggedIn}
+                    setLinkTo={setLinkTo}
+                  />
+                )
+              }
             />
             <Route path="/users/register" element={<Register />} />
-
-            <Route
-              path="/users/resetpassword"
-              element={<ResetPassword  />}
-            />
-            {/* All App container */}
-            <Route path="/chatApp" element={loggedIn? <ChatApp user={user} /> : <div>no user</div> } />
+            <Route path="/users/resetpassword" element={<ResetPassword />} />
           </Routes>
-          {/* ---------------------------------------- */}
         </BrowserRouter>
         {/* ---------------------------------------- */}
       </div>
