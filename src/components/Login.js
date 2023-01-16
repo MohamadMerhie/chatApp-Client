@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const Login = ({ setLoggedIn, setUser }) => {
+const Login = ({ setLoggedIn, setUser, loggedIn }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [firstName, setFirstName] = useState();
@@ -26,17 +27,19 @@ const Login = ({ setLoggedIn, setUser }) => {
         console.log("logged in successfuly");
         setLoggedIn(true);
         setUser(data);
+        console.log(loggedIn);
       }
     } catch (error) {
       console.log({ message: error });
       setLoggedIn(false);
+      console.log(loggedIn);
     }
   };
 
   return (
     <div>
       <h1>Login</h1>
-      <form onSubmit={loginUser}>
+      <form>
         <input
           type="firstName"
           placeholder="first Name"
@@ -62,8 +65,14 @@ const Login = ({ setLoggedIn, setUser }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />
-
-        <input type="submit" value="Login" />
+        <Link to="/chatApp" onSubmit={loginUser}>
+          <input type="submit" value="login" />
+          
+        </Link>
+<br />
+        <Link to="/users/resetpassword">Forget password?</Link>
+        <br />
+        <Link to="/users/register">Not registered? SignUp</Link>
       </form>
     </div>
   );

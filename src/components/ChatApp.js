@@ -2,16 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import "./Search.css";
 import image from "./Avatar.webp";
 import Conversation from "./Conversation.js";
-import { format } from 'timeago.js';
-const ChatApp = ({ user }) => {
+import { format } from "timeago.js";
+const ChatApp = ({ user, loggedIn }) => {
   const [users, setUsers] = useState([]);
   const [searchNewChat, setSearchNewChat] = useState("");
   const [chatMembers, setMembers] = useState([]);
   const [chats, setChats] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [textMessage,setTextMessage] = useState('')
-  const scroll = useRef()
+  const [textMessage, setTextMessage] = useState("");
+  const scroll = useRef();
   useEffect(() => {
     const chatsFetch = async () => {
       // event.preventDefault()
@@ -71,50 +71,46 @@ const ChatApp = ({ user }) => {
     }
   };
   useEffect(() => {
-  const getMessages = async () => {
+    const getMessages = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:4000/messages/" + currentChat._id
+        );
+        const data = await response.json();
+        console.log(data);
+        setMessages(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getMessages();
+  }, [currentChat]);
+
+  const submitTextMessageHandler = async (event) => {
+    event.preventDefault();
+    console.log(event);
+
     try {
-      const response = await fetch(
-        "http://localhost:4000/messages/" + currentChat._id
-      );
+      const response = await fetch("http://localhost:4000/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chatId: currentChat._id,
+          senderId: user._id,
+          text: textMessage,
+        }),
+        credentials: "include",
+      });
       const data = await response.json();
-      console.log(data);
-      setMessages(data);
+      setMessages([...messages, data]);
+      setTextMessage("");
     } catch (error) {
       console.log(error);
     }
   };
-    getMessages();
-  }, [currentChat]);
-
-
-const submitTextMessageHandler = async(event)=>{
-event.preventDefault()
-console.log(event);
-
-  try {
-    const response = await fetch("http://localhost:4000/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chatId: currentChat._id,
-        senderId: user._id, 
-        text: textMessage
-      }),
-      credentials: "include",
-    });
-    const data = await response.json()
-    setMessages([...messages,data])
-    setTextMessage("")
-  } catch (error) {
-    console.log(error);
-  }
-
-
-
-}
-useEffect(()=>{
-scroll.current?.scrollIntoView({behavior: "smooth"})
-},[messages])
+  useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <div className="chatApp">
@@ -195,21 +191,24 @@ scroll.current?.scrollIntoView({behavior: "smooth"})
         <div className="conversationContainer">
           {currentChat ? (
             messages?.map((message) => (
-            <div ref={scroll} className="scroll">
-                <div className={message.senderId === user._id? "ownMessage" : "messages"}>
+              <div ref={scroll} className="scroll">
+                <div
+                  className={
+                    message.senderId === user._id ? "ownMessage" : "messages"
+                  }
+                >
                   <div className="chats3">
                     <div className="imageContainer">
                       <img src={image} alt="" className="userImage" />
                     </div>
                   </div>
-                 
-                  <div className="text-time">
 
-                  <div className="message">{message.text} </div>
-                  <div className="timeAgo">{format(message.createdAt)}</div>
+                  <div className="text-time">
+                    <div className="message">{message.text} </div>
+                    <div className="timeAgo">{format(message.createdAt)}</div>
                   </div>
                 </div>
-                </div>
+              </div>
             ))
           ) : (
             <div className="noConversation">Open a Conversation </div>
@@ -220,12 +219,17 @@ scroll.current?.scrollIntoView({behavior: "smooth"})
         {/* keyboard container */}
         {/* ---------------------------------------- */}
         <div className="keyboard">
-          <input type="text"  value={textMessage} onChange={(e)=>setTextMessage(e.target.value)}/>
+          <input
+            type="text"
+            value={textMessage}
+            onChange={(e) => setTextMessage(e.target.value)}
+          />
           <button onClick={submitTextMessageHandler}>send</button>
         </div>
 
         {/* ---------------------------------------- */}
       </div>
+
       {/* ---------------------------------------- */}
     </div>
   );

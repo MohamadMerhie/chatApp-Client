@@ -4,7 +4,8 @@ import Login from "./components/Login.js";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import ChatApp from "./components/ChatApp.js";
-
+import ResetPassword from "./components/ResetPassword";
+import Register from "./components/Register";
 function App() {
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
@@ -22,22 +23,23 @@ function App() {
   return (
     <>
       <div className="App">
-        <a href="/users/login"> Login</a>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={<Login setLoggedIn={setLoggedIn} setUser={setUser} loggedIn={loggedIn} />}
+            />
+            <Route path="/users/register" element={<Register />} />
 
-        {!loggedIn ? (
-          <BrowserRouter>
-            <Routes>
-              <Route
-                path="/users/login"
-                element={<Login setLoggedIn={setLoggedIn} setUser={setUser} />}
-              />
-            </Routes>
-          </BrowserRouter>
-        ) : (
-          // {/* All App container */}
-          // {/* ---------------------------------------- */}
-          <ChatApp user={user} />
-        )}
+            <Route
+              path="/users/resetpassword"
+              element={<ResetPassword  />}
+            />
+            {/* All App container */}
+            <Route path="/chatApp" element={loggedIn? <ChatApp user={user} /> : <div>no user</div> } />
+          </Routes>
+          {/* ---------------------------------------- */}
+        </BrowserRouter>
         {/* ---------------------------------------- */}
       </div>
     </>
