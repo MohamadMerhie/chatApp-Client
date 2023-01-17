@@ -43,7 +43,6 @@ function App() {
             />
             <Route path="/users/register" element={<Register />} />
             <Route path="/users/resetpassword" element={<ResetPassword />} />
-
           </Routes>
         </BrowserRouter>
         {/* ---------------------------------------- */}
