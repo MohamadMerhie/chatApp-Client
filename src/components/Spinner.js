@@ -8,12 +8,12 @@ const Spinner = ({ setIsVerified, isVerified, id, setId }) => {
       const response = await fetch(`http://localhost:4000/users/find/${id}`);
       const data = await response.json();
       console.log(data);
-      if (data[0].isVerified) {
+      setIsVerified(data.isVerified);
+      if (data.isVerified) {
         console.log("thanks for verifying the email enter new password");
-        const userId = data[0]._id;
+        const userId = data._id;
         console.log(userId);
-        const nav = () => navigate("/users/setpassword");
-        nav();
+        navigate("/")
         // setLinkTo("/chatApp");
         // setLoggedIn(true);
         // setUser(data);
@@ -28,6 +28,10 @@ const Spinner = ({ setIsVerified, isVerified, id, setId }) => {
     }
   };
   checkVerification();
-  return <>verify email...</>;
+  return isVerified ? (
+    <div>verification Successful </div>
+  ) : (
+    <div>verification error</div>
+  );
 };
 export default Spinner;

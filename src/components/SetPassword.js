@@ -27,6 +27,9 @@ const SetPassword = ({
       );
       const data = await response.json();
       console.log(data);
+      if (data.isVerified) {
+        navigate("/users/spinner");
+      }
       console.log("passwort geändert");
     } catch (err) {
       console.log(err);
@@ -39,6 +42,7 @@ const SetPassword = ({
         <input
           type="password"
           placeholder="password"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />

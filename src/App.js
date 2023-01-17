@@ -7,9 +7,12 @@ import ChatApp from "./components/ChatApp.js";
 import ResetPassword from "./components/ResetPassword";
 import Register from "./components/Register";
 import SetPassword from "./components/SetPassword.js";
+import Spinner from './components/Spinner.js'
 function App() {
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isVerified,setIsVerified] = useState(false)
+
 
   // useEffect(() => {
   //   const fetchUsers = async () => {
@@ -43,8 +46,9 @@ function App() {
               }
             />
             <Route path="/users/register" element={<Register />} />
-            <Route path="/users/resetpassword" element={<ResetPassword />} />
+            <Route path="/users/resetpassword" element={<ResetPassword setIsVerified={setIsVerified} />} />
             <Route path="/users/setPassword" element={<SetPassword />} />
+            <Route path="/users/spinner" element={<Spinner setIsVerified={setIsVerified}  isVerified={isVerified} /> } />
           </Routes>
         </BrowserRouter>
         {/* ---------------------------------------- */}
