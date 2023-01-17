@@ -9,13 +9,11 @@ const ResetPassword = ({
 }) => {
   const [email, setEmail] = useState();
   const navigate = useNavigate();
-  const submitHandler = (event) => {
-    event.preventDefault();
-    setEmail(email);
-    console.log(email);
-  };
-  const resetPassword = async (email) => {
+
+  const resetPassword = async (event) => {
     try {
+      event.preventDefault();
+
       console.log("reset");
       console.log(email);
       const response = await fetch(
@@ -55,17 +53,18 @@ const ResetPassword = ({
       // setLinkTo("/");
     }
   };
-  useEffect(() => {
-    resetPassword(email);
-  }, [email]);
+  // useEffect(() => {
+  //   resetPassword(email);
+  // }, [email]);
   console.log("versuch");
   return (
     <div>
       <h1>Reset Password</h1>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={resetPassword}>
         <input
           type="email"
           placeholder="Email"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <br />
