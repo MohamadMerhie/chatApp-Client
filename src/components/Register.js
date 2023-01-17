@@ -6,6 +6,7 @@ const Register = () => {
   const [password, setPassword] = useState();
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
+  const [signedUp, setSignedUp] = useState(false);
 
   const registerUser = async (event) => {
     event.preventDefault();
@@ -23,6 +24,7 @@ const Register = () => {
       });
       const data = await response.json();
       console.log(data);
+      setSignedUp(response.ok);
       if (response.ok) {
         console.log("logged in successfuly");
       }
@@ -31,44 +33,51 @@ const Register = () => {
     }
   };
   return (
-    <div className="register">
-      <h1 className="header">Register</h1>
-      <form onSubmit={registerUser} className="loginForm">
-        <input
-          className="inputs"
-          type="firstName"
-          placeholder="first Name"
-          onChange={(e) => setFirstName(e.target.value)}
-        />
+    <>
+      {signedUp ? (
+        <div>thanks for signing up. please verify yout email</div>
+      ) : (
+        <div className="register">
+          <h1 className="header">Register</h1>
+          <form onSubmit={registerUser} className="loginForm">
+            <input
+              className="inputs"
+              type="firstName"
+              placeholder="first Name"
+              onChange={(e) => setFirstName(e.target.value)}
+            />
 
-        <input
-          className="inputs"
-          type="lastName"
-          placeholder="lastName"
-          onChange={(e) => setLastName(e.target.value)}
-        />
+            <input
+              className="inputs"
+              type="lastName"
+              placeholder="lastName"
+              onChange={(e) => setLastName(e.target.value)}
+            />
 
-        <input
-          className="inputs"
-          type="email"
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+            <input
+              className="inputs"
+              type="email"
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-        <input
-          className="inputs"
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+            <input
+              className="inputs"
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-        <div className="links">
-          <Link to="/" className="link">already registered? SignIn</Link>
-          <input type="submit" value="register" className="btn"/>
-
+            <div className="links">
+              <Link to="/" className="link">
+                already registered? SignIn
+              </Link>
+              <input type="submit" value="register" className="btn" />
+            </div>
+          </form>
         </div>
-      </form>
-    </div>
+      )}
+    </>
   );
 };
 
