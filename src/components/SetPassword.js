@@ -28,6 +28,7 @@ const SetPassword = ({
       const data = await response.json();
       console.log(data);
       console.log("passwort geändert");
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
