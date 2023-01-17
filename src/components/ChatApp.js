@@ -3,10 +3,12 @@ import "./Search.css";
 import image from "./Avatar.webp";
 import Conversation from "./Conversation.js";
 import { format } from "timeago.js";
-const ChatApp = ({ user, loggedIn }) => {
+// import LastStatus from 'react-last-status';
+const ChatApp = ({ user , setLoggedIn}) => {
   const [users, setUsers] = useState([]);
   const [searchNewChat, setSearchNewChat] = useState("");
   const [chatMembers, setMembers] = useState([]);
+  const [chatHeaderUser, setChatHeaderUser] = useState(null);
   const [chats, setChats] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -112,126 +114,163 @@ const ChatApp = ({ user, loggedIn }) => {
     scroll.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const logoutHandler = async (event) => {
+    event.preventDefault();
+
+    console.log(user._id);
+    try {
+      const response = await fetch("http://localhost:4000/users/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+         id: user._id
+        }),
+        credentials: "include",
+      });
+if (response.ok) {
+  setLoggedIn(false)
+}
+    
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="chatApp">
-      {/* left side app (search and chats)  */}
-      {/* ---------------------------------------- */}
+    <>
+      <button /* to="/logout" */ onClick={logoutHandler}> Logout </button>
 
-      <div className="left-side">
-        {/* search container */}
+      <div className="chatApp">
+        {/* left side app (search and chats)  */}
         {/* ---------------------------------------- */}
 
-        <div className="search">
-          <input
-            type="search"
-            name="search"
-            id=""
-            placeholder="search"
-            value={searchNewChat}
-            onChange={(e) => setSearchNewChat(e.target.value)}
-          />
+        <div className="left-side">
+          {/* search container */}
+          {/* ---------------------------------------- */}
 
-          {searchNewChat && (
-            <div className="searchNewChat">
-              {users?.map((user) => (
-                <div className="chat" onClick={() => openChatFetch(user)}>
-                  <div className="imageContainer">
-                    <img src={image} alt="" className="userImage" />
-                    <span className="status"></span>
-                  </div>
-                  <div /* className="userInfo" */>
-                    <p className="chatUsername">{user.fullName}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-        {/* ---------------------------------------- */}
+          <div className="search">
+            <input
+              type="search"
+              name="search"
+              id=""
+              placeholder="search"
+              value={searchNewChat}
+              onChange={(e) => setSearchNewChat(e.target.value)}
+            />
 
-        {/* chats container */}
-        {/* ---------------------------------------- */}
-        <div className="chats">
-          {chatMembers?.map((chat) => (
-            <div onClick={() => setCurrentChat(chat)}>
-              <Conversation
-                chat={chat}
-                // openChatFetch={openChatFetch}
-                user={user}
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* ---------------------------------------- */}
-      </div>
-      {/* ---------------------------------------- */}
-
-      {/* right side app (conversation)  */}
-      {/* ---------------------------------------- */}
-
-      <div className="right-side">
-        {/* friends' chat Container */}
-        {/* ---------------------------------------- */}
-        <div className="chats1">
-          <div className="imageContainer">
-            <img src={image} alt="" className="userImage" />
-            <span className="status1"></span>
-          </div>
-
-          <div className="userInfo">
-            <p className="chatUsername">john</p>
-            <p className="textStatus">last seen ..</p>
-          </div>
-        </div>
-        {/* ---------------------------------------- */}
-
-        {/* conversation Container */}
-        {/* ---------------------------------------- */}
-        <div className="conversationContainer">
-          {currentChat ? (
-            messages?.map((message) => (
-              <div ref={scroll} className="scroll">
-                <div
-                  className={
-                    message.senderId === user._id ? "ownMessage" : "messages"
-                  }
-                >
-                  <div className="chats3">
+            {searchNewChat && (
+              <div className="searchNewChat">
+                {users?.map((user) => (
+                  <div className="chat" onClick={() => openChatFetch(user)}>
                     <div className="imageContainer">
                       <img src={image} alt="" className="userImage" />
+                      <span className={user.isOnline && "status"}></span>
+                    </div>
+                    <div /* className="userInfo" */>
+                      <p className="chatUsername">{user.fullName}</p>
                     </div>
                   </div>
-
-                  <div className="text-time">
-                    <div className="message">{message.text} </div>
-                    <div className="timeAgo">{format(message.createdAt)}</div>
-                  </div>
-                </div>
+                ))}
               </div>
-            ))
-          ) : (
-            <div className="noConversation">Open a Conversation </div>
-          )}
+            )}
+          </div>
+          {/* ---------------------------------------- */}
+
+          {/* chats container */}
+          {/* ---------------------------------------- */}
+          <div className="chats">
+            {chatMembers?.map((chat) => (
+              <div onClick={() => setCurrentChat(chat)}>
+                <Conversation
+                  chat={chat}
+                  setChatHeaderUser={setChatHeaderUser}
+                  user={user}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* ---------------------------------------- */}
         </div>
         {/* ---------------------------------------- */}
 
-        {/* keyboard container */}
+        {/* right side app (conversation)  */}
         {/* ---------------------------------------- */}
-        <div className="keyboard">
-          <input
-            type="text"
-            value={textMessage}
-            onChange={(e) => setTextMessage(e.target.value)}
-          />
-          <button onClick={submitTextMessageHandler}>send</button>
+
+        <div className="right-side">
+          {/* Chat Header Container */}
+          {/* ---------------------------------------- */}
+          <div className="chats1">
+            <div className="imageContainer">
+              <img
+                src={chatHeaderUser ? chatHeaderUser.image : image}
+                alt=""
+                className="userImage"
+              />
+            </div>
+
+            <div className="userInfo">
+              <p className="chatUsername">
+                {chatHeaderUser ? chatHeaderUser.fullName : "C H A T - A P P"}
+              </p>
+              <p className="textStatus">
+                {chatHeaderUser
+                  ? chatHeaderUser.isOnline
+                    ? "Online"
+                    : "last seen at... "
+                  : "We hope to see you always"}
+              </p>
+            </div>
+          </div>
+          {/* ---------------------------------------- */}
+
+          {/* conversation Container */}
+          {/* ---------------------------------------- */}
+          <div className="conversationContainer">
+            {currentChat ? (
+              messages?.map((message) => (
+                <div ref={scroll} className="scroll">
+                  <div
+                    className={
+                      message.senderId === user._id ? "ownMessage" : "messages"
+                    }
+                  >
+                    <div className="chats3">
+                      <div className="imageContainer">
+                        <img src={image} alt="" className="userImage" />
+                      </div>
+                    </div>
+
+                    <div className="text-time">
+                      <div className="message">{message.text} </div>
+                      <div className="timeAgo">{format(message.createdAt)}</div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="noConversation">Open a Conversation </div>
+            )}
+          </div>
+          {/* ---------------------------------------- */}
+
+          {/* keyboard container */}
+          {/* ---------------------------------------- */}
+          <div className="keyboard">
+            <input
+              type="text"
+              value={textMessage}
+              onChange={(e) => setTextMessage(e.target.value)}
+            />
+            <button onClick={submitTextMessageHandler} className="sendBtn">send</button>
+          </div>
+
+          {/* ---------------------------------------- */}
         </div>
 
         {/* ---------------------------------------- */}
       </div>
-
-      {/* ---------------------------------------- */}
-    </div>
+    </>
   );
 };
 

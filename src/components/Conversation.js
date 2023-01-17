@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import image from "./Avatar.webp";
 
-const Conversation = ({ chat, user }) => {
+const Conversation = ({ chat, user, setChatHeaderUser }) => {
   const [userData, setUserData] = useState(null);
 
-  // console.log(userData);
   useEffect(() => {
     const usersIds = chat.members.find((id) => id !== user._id);
 
@@ -15,22 +14,22 @@ const Conversation = ({ chat, user }) => {
         );
         const data = await response.json();
         setUserData(data);
-        console.log(userData);
       } catch (error) {
         console.log(error);
       }
     };
     getUserData();
-  }, [user,chat]);
+  }, [user, chat]);
 
   return userData?.map((friend) => (
     <div
       className="chat"
-      key={friend._id} /* onClick={() => openChatFetch(userData)} */
+      key={friend._id}
+      onClick={() => setChatHeaderUser(friend)}
     >
       <div className="imageContainer">
         <img src={image} alt="" className="userImage" />
-        <span className="status"></span>
+        <span className={friend.isOnline?"status":""}></span>
       </div>
       <div>
         <p className="chatUsername">{friend.fullName}</p>
