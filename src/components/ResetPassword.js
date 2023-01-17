@@ -51,7 +51,7 @@ const ResetPassword = ({
       // setLinkTo("/");
     }
   };
-  console.log("versuch");
+  // console.log("versuch");
   return (
     <div>
       <h1>Reset Password</h1>
