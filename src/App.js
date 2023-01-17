@@ -32,7 +32,7 @@ function App() {
               path="/"
               element={
                 loggedIn ? (
-                  <ChatApp user={user}  setLoggedIn={setLoggedIn}/>
+                  <ChatApp user={user} setLoggedIn={setLoggedIn} />
                 ) : (
                   <Login
                     setLoggedIn={setLoggedIn}

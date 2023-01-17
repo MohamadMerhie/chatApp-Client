@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./Search.css";
+import "./chatApp.css"
 import image from "./Avatar.webp";
 import Conversation from "./Conversation.js";
 import { format } from "timeago.js";
@@ -235,15 +236,15 @@ if (response.ok) {
                       message.senderId === user._id ? "ownMessage" : "messages"
                     }
                   >
-                    <div className="chats3">
+                    {/* <div className="chats3"> */}
                       <div className="imageContainer">
                         <img src={image} alt="" className="userImage" />
                       </div>
-                    </div>
+                    {/* </div> */}
 
                     <div className="text-time">
-                      <div className="message">{message.text} </div>
-                      <div className="timeAgo">{format(message.createdAt)}</div>
+                      <div className="message">{message.text}
+                      <span className="timeAgo">{format(message.createdAt)}</span> </div>
                     </div>
                   </div>
                 </div>

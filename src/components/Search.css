@@ -1,33 +1,34 @@
-.searchNewChat{
-position: absolute;
-background-color: rgb(255, 152, 17);
-
-top:50px;
-left: 0px;
-right: 0;
-bottom: -695px;
-display: flex;
-flex-direction: column;
-/* justify-content: center; */
-/* align-items: center; */
-z-index: 10000;
-overflow-y: hidden;
-border-bottom-left-radius: 1rem;
-border-bottom-right-radius: 1rem;
-
-
+.searchNewChat {
+  position: absolute;
+  background-color: rgb(255, 152, 17);
+  top: 73px;
+  left: 0px;
+  right: 0;
+  bottom: -670px;
+  display: flex;
+  flex-direction: column;
+  z-index: 10000;
+  overflow-y: hidden;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }
-.usersSearchSection{
-    
-    width: 50%;
-    height: 90%;
-    
-}
-.chat{
-    padding: 1rem;
-    border-bottom: 1px solid gray;
-    margin: 1rem;
-}
+
 .search {
-    position: relative;
+  border-bottom: 2px solid gray;
+  text-align: center;
+  padding: 0.8rem;
+  position: relative;
+}
+.search input {
+  width: 80%;
+  font-size: 1.2rem;
+  border-radius: 1rem;
+  border: none;
+  outline: none;
+  padding: 0.8rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 5px 10px;
+}
+.usersSearchSection {
+  width: 50%;
+  height: 90%;
 }

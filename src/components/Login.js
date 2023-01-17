@@ -49,6 +49,7 @@ const Login = ({ setLoggedIn, setUser, user }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
+        <input type="submit" value="login" className="btn inputs" />
         <div className="links">
          
           <Link to="/users/resetpassword" className="link">
@@ -63,7 +64,6 @@ const Login = ({ setLoggedIn, setUser, user }) => {
 
 
 
-        <input type="submit" value="login" className="btn" />
         </div>
 
       </form>
