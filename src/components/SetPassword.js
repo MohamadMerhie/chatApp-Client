@@ -31,6 +31,7 @@ const SetPassword = ({
         navigate("/users/spinner");
       }
       console.log("passwort geändert");
+      navigate("/");
     } catch (err) {
       console.log(err);
     }

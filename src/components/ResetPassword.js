@@ -25,12 +25,9 @@ const ResetPassword = ({
           credentials: "include",
         }
       );
-      // const data = await response.json();
-      if( response.ok) {
-        setIsVerified(true);
-
-      }
-      
+      const data = await response.json();
+      console.log(data);
+      console.log(email);
     } catch (error) {
       console.log({ message: error.message });
     }

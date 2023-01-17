@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+
 import "./login.css";
-const Login = ({ setLoggedIn, setUser, setOnline }) => {
+const Login = ({ setLoggedIn, setUser, user }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const loginUser = async (event) => {
@@ -12,7 +13,7 @@ const Login = ({ setLoggedIn, setUser, setOnline }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
-          password,
+          password
         }),
         credentials: "include",
       });
