@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import ChatApp from "./components/ChatApp.js";
 import ResetPassword from "./components/ResetPassword";
 import Register from "./components/Register";
+import SetPassword from "./components/SetPassword.js";
 function App() {
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
@@ -43,6 +44,7 @@ function App() {
             />
             <Route path="/users/register" element={<Register />} />
             <Route path="/users/resetpassword" element={<ResetPassword />} />
+            <Route path="/users/setPassword" element={<SetPassword />} />
           </Routes>
         </BrowserRouter>
         {/* ---------------------------------------- */}

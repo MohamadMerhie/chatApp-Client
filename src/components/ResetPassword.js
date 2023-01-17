@@ -1,18 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 const ResetPassword = ({
   setIsVerified,
   isVerified,
-  setEmail,
-  email,
+
   id,
   setId,
 }) => {
+  const [email, setEmail] = useState();
   const navigate = useNavigate();
-  const resetPassword = async (event) => {
+  const submitHandler = (event) => {
+    event.preventDefault();
+    setEmail(email);
+    console.log(email);
+  };
+  const resetPassword = async (email) => {
     try {
-      event.preventDefault();
       console.log("reset");
+      console.log(email);
       const response = await fetch(
         "http://localhost:4000/users/resetPassword",
         {
@@ -22,11 +27,10 @@ const ResetPassword = ({
             email,
           }),
           credentials: "include",
-        },
-        []
+        }
       );
       const data = await response.json();
-      setEmail(data[0].email);
+      console.log(data);
       console.log(email);
       // const id = await data[0]._id;
       // console.log(id);
@@ -42,20 +46,23 @@ const ResetPassword = ({
       //   // setLoggedIn(true);
       //   // setUser(data);
       // } else if (!isVerified) {
-      const nav = () => navigate("/spinner");
-      nav();
+      // const nav = () => navigate("/spinner");
+      // nav();
       // }
     } catch (error) {
-      console.log({ message: error });
+      console.log({ message: error.message });
       // setLoggedIn(false);
       // setLinkTo("/");
     }
   };
+  useEffect(() => {
+    resetPassword(email);
+  }, [email]);
   console.log("versuch");
   return (
     <div>
       <h1>Reset Password</h1>
-      <form onSubmit={resetPassword}>
+      <form onSubmit={submitHandler}>
         <input
           type="email"
           placeholder="Email"
