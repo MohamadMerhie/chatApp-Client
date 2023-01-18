@@ -10,16 +10,17 @@ import SetPassword from "./components/SetPassword.js";
 function App() {
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
+  const [allUsers, setAllUsers] = useState({});
 
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     const response = await fetch("http://localhost:4000/users");
-  //     const data = response.json();
-  //     console.log(data);
-  //     setUsers(data);
-  //   };
-  //   fetchUsers();
-  // });
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await fetch("http://localhost:4000/users");
+      const data = await response.json();
+      console.log(data);
+      setAllUsers(data);
+    };
+    fetchUsers();
+  },[loggedIn]);
 
   return (
     <>
@@ -32,7 +33,7 @@ function App() {
               path="/"
               element={
                 loggedIn ? (
-                  <ChatApp user={user} setLoggedIn={setLoggedIn} />
+                  <ChatApp user={user} setLoggedIn={setLoggedIn} allUsers={allUsers} />
                 ) : (
                   <Login
                     setLoggedIn={setLoggedIn}

@@ -7,19 +7,21 @@ const Register = () => {
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [signedUp, setSignedUp] = useState(false);
+  const [profilePicture, setProfilePicture] = useState();
 
   const registerUser = async (event) => {
     event.preventDefault();
+    const formData = new FormData();
+    formData.append("file", profilePicture);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("email", email);
+    formData.append("password", password);
     try {
       const response = await fetch("http://localhost:4000/users/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          password,
-        }),
+        // headers: { "Content-Type": "application/json" },
+        body: formData,
         credentials: "include",
       });
       const data = await response.json();
@@ -67,6 +69,16 @@ const Register = () => {
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
             />
+
+            <div className="input-group">
+              <label htmlFor="files">Select files</label>
+              <input
+                type="file"
+                onChange={(event) => {
+                  setProfilePicture(event.target.files[0]);
+                }}
+              />
+            </div>
 
             <div className="links">
               <Link to="/" className="link">

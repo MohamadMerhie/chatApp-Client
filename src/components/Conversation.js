@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import image from "./Avatar.webp";
+const imagePath = "http://localhost:4000/"
 
 const Conversation = ({ chat, user, setChatHeaderUser }) => {
   const [userData, setUserData] = useState(null);
@@ -27,8 +28,9 @@ const Conversation = ({ chat, user, setChatHeaderUser }) => {
       key={friend._id}
       onClick={() => setChatHeaderUser(friend)}
     >
+     
       <div className="imageContainer">
-        <img src={image} alt="" className="userImage" />
+        <img src={friend.profilePicture ? imagePath+friend.profilePicture : image } alt="" className="userImage" />
         <span className={friend.isOnline?"status":""}></span>
       </div>
       <div>

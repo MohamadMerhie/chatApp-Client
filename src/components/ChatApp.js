@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import "./Search.css";
-import "./chatApp.css"
+import "./chatApp.css";
 import image from "./Avatar.webp";
 import Conversation from "./Conversation.js";
 import { format } from "timeago.js";
-// import LastStatus from 'react-last-status';
-const ChatApp = ({ user , setLoggedIn}) => {
+const imagePath = "http://localhost:4000/";
+const ChatApp = ({ user, setLoggedIn, allUsers }) => {
   const [users, setUsers] = useState([]);
   const [searchNewChat, setSearchNewChat] = useState("");
   const [chatMembers, setMembers] = useState([]);
@@ -15,6 +15,7 @@ const ChatApp = ({ user , setLoggedIn}) => {
   const [messages, setMessages] = useState([]);
   const [textMessage, setTextMessage] = useState("");
   const scroll = useRef();
+  const [lastSeen, setLastSeen] = useState(null);
   useEffect(() => {
     const chatsFetch = async () => {
       // event.preventDefault()
@@ -80,8 +81,10 @@ const ChatApp = ({ user , setLoggedIn}) => {
           "http://localhost:4000/messages/" + currentChat._id
         );
         const data = await response.json();
-        console.log(data);
+        console.log(data[data.length - 1]);
+        setLastSeen(data[data.length - 1]);
         setMessages(data);
+        console.log(lastSeen);
       } catch (error) {
         console.log(error);
       }
@@ -124,19 +127,18 @@ const ChatApp = ({ user , setLoggedIn}) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-         id: user._id
+          id: user._id,
         }),
         credentials: "include",
       });
-if (response.ok) {
-  setLoggedIn(false)
-}
-    
+      if (response.ok) {
+        setLoggedIn(false);
+      }
     } catch (error) {
       console.log(error);
     }
   };
-
+  console.log(new Date().toLocaleString());
   return (
     <>
       <button /* to="/logout" */ onClick={logoutHandler}> Logout </button>
@@ -158,13 +160,20 @@ if (response.ok) {
               value={searchNewChat}
               onChange={(e) => setSearchNewChat(e.target.value)}
             />
-
             {searchNewChat && (
               <div className="searchNewChat">
                 {users?.map((user) => (
                   <div className="chat" onClick={() => openChatFetch(user)}>
                     <div className="imageContainer">
-                      <img src={image} alt="" className="userImage" />
+                      <img
+                        src={
+                          user.profilePicture
+                            ? imagePath + user.profilePicture
+                            : image
+                        }
+                        alt=""
+                        className="userImage"
+                      />
                       <span className={user.isOnline && "status"}></span>
                     </div>
                     <div /* className="userInfo" */>
@@ -204,7 +213,11 @@ if (response.ok) {
           <div className="chats1">
             <div className="imageContainer">
               <img
-                src={chatHeaderUser ? chatHeaderUser.image : image}
+                src={
+                  chatHeaderUser?.profilePicture
+                    ? imagePath + chatHeaderUser.profilePicture
+                    : image
+                }
                 alt=""
                 className="userImage"
               />
@@ -218,8 +231,12 @@ if (response.ok) {
                 {chatHeaderUser
                   ? chatHeaderUser.isOnline
                     ? "Online"
-                    : "last seen at... "
+                    : "last seen " + format(new Date(chatHeaderUser.lastSeen))   
                   : "We hope to see you always"}
+                  {
+  // console.log(format(chatHeaderUser.lastSeen))
+
+                  }
               </p>
             </div>
           </div>
@@ -237,14 +254,33 @@ if (response.ok) {
                     }
                   >
                     {/* <div className="chats3"> */}
-                      <div className="imageContainer">
-                        <img src={image} alt="" className="userImage" />
-                      </div>
-                    {/* </div> */}
+
+                    <div className="imageContainer">
+                      {allUsers?.map(
+                        (u) =>
+                          message.senderId === u._id && (
+                            <img
+                              src={
+                                u.profilePicture
+                                  ? imagePath + u.profilePicture
+                                  : image
+                              }
+                              alt=""
+                              className="userImage"
+                            />
+                          )
+                      )}
+                    </div>
 
                     <div className="text-time">
-                      <div className="message">{message.text}
-                      <span className="timeAgo">{format(message.createdAt)}</span> </div>
+                      <div className="message">
+                        {message.text}
+                        <span className="timeAgo">
+                          {format(new Date(message?.createdAt))}
+
+                          {/* {format(message.createdAt)} */}
+                        </span>{" "}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -263,7 +299,9 @@ if (response.ok) {
               value={textMessage}
               onChange={(e) => setTextMessage(e.target.value)}
             />
-            <button onClick={submitTextMessageHandler} className="sendBtn">send</button>
+            <button onClick={submitTextMessageHandler} className="sendBtn">
+              send
+            </button>
           </div>
 
           {/* ---------------------------------------- */}

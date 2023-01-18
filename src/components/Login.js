@@ -36,28 +36,28 @@ const Login = ({ setLoggedIn, setUser, user }) => {
 
       <form onSubmit={loginUser} className="loginForm">
         <input
-          className="inputs"
+          className="loginInputs"
           type="email"
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
-          className="inputs"
+          className="loginInputs"
           type="password"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <input type="submit" value="login" className="btn inputs" />
+        <input type="submit" value="login" className="loginBtn" />
         <div className="links">
          
-          <Link to="/users/resetpassword" className="link">
+          <Link to="/users/resetpassword" className="loginLink">
             Forget password?
           </Link>
 
 
-          <Link to="/users/register" className="link">
+          <Link to="/users/register" className="loginLink">
             Not registered? SignUp
           </Link>
           
