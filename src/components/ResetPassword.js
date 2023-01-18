@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SetPassword from "./SetPassword";
+import './resetpasswors.css'
 const ResetPassword = ({
   setIsVerified,
   isVerified,
@@ -35,17 +36,18 @@ const ResetPassword = ({
 
   console.log("versuch");
   return (
-    <>{!isVerified ?( <div>
-      <h1>Reset Password</h1>
-      <form onSubmit={resetPassword}>
+    <>{!isVerified ?( <div className="resetPasword">
+      <h1 className="header">Reset Password</h1>
+      <form onSubmit={resetPassword} className="setPassForm">
         <input
           type="email"
+          className="setPassInputs"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <br />
-        <input type="submit" value="reset" />
+        <input type="submit" value="reset" className="setPassBtn" />
       </form>
     </div>):(<SetPassword/>)}
      

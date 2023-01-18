@@ -71,8 +71,9 @@ const Register = () => {
             />
 
             <div className="input-group">
-              <label htmlFor="files">Select files</label>
+              <label htmlFor="files" >Select profile picture</label>
               <input
+              className="upload"
                 type="file"
                 onChange={(event) => {
                   setProfilePicture(event.target.files[0]);
@@ -80,11 +81,11 @@ const Register = () => {
               />
             </div>
 
+       <input type="submit" value="register" className="registerBtn" />
             <div className="links">
-              <Link to="/" className="link">
+              <Link to="/" className="loginLink">
                 already registered? SignIn
               </Link>
-              <input type="submit" value="register" className="btn" />
             </div>
           </form>
         </div>

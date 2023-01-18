@@ -14,6 +14,7 @@ const ChatApp = ({ user, setLoggedIn, allUsers }) => {
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [textMessage, setTextMessage] = useState("");
+  const [imageProfile, setImageProfile] = useState("");
   const scroll = useRef();
   const [lastSeen, setLastSeen] = useState(null);
   useEffect(() => {
@@ -96,6 +97,7 @@ const ChatApp = ({ user, setLoggedIn, allUsers }) => {
     event.preventDefault();
     console.log(event);
 
+    console.log(imageProfile);
     try {
       const response = await fetch("http://localhost:4000/messages", {
         method: "POST",
@@ -141,9 +143,11 @@ const ChatApp = ({ user, setLoggedIn, allUsers }) => {
   console.log(new Date().toLocaleString());
   return (
     <>
-      <button /* to="/logout" */ onClick={logoutHandler}> Logout </button>
-
       <div className="chatApp">
+        <button /* to="/logout" */ onClick={logoutHandler} className="logout">
+          {" "}
+          Logout{" "}
+        </button>
         {/* left side app (search and chats)  */}
         {/* ---------------------------------------- */}
 
@@ -212,15 +216,20 @@ const ChatApp = ({ user, setLoggedIn, allUsers }) => {
           {/* ---------------------------------------- */}
           <div className="chats1">
             <div className="imageContainer">
-              <img
-                src={
-                  chatHeaderUser?.profilePicture
+              
+               <a href={chatHeaderUser?.profilePicture
                     ? imagePath + chatHeaderUser.profilePicture
-                    : image
-                }
-                alt=""
-                className="userImage"
-              />
+                    : image}  target="_blank" >
+                <img
+                  src={
+                    chatHeaderUser?.profilePicture
+                      ? imagePath + chatHeaderUser.profilePicture
+                      : image
+                  }
+                  alt=""
+                  className="userImage"
+                />
+              </a>
             </div>
 
             <div className="userInfo">
@@ -231,12 +240,11 @@ const ChatApp = ({ user, setLoggedIn, allUsers }) => {
                 {chatHeaderUser
                   ? chatHeaderUser.isOnline
                     ? "Online"
-                    : "last seen " + format(new Date(chatHeaderUser.lastSeen))   
+                    : "last seen " + format(new Date(chatHeaderUser.lastSeen))
                   : "We hope to see you always"}
-                  {
-  // console.log(format(chatHeaderUser.lastSeen))
-
-                  }
+                {
+                  // console.log(format(chatHeaderUser.lastSeen))
+                }
               </p>
             </div>
           </div>

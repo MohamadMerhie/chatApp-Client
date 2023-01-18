@@ -13,21 +13,25 @@
 
 .header {
   font-size: 4rem;
+  text-shadow: rgba(0, 0, 0, 0.24) 0px 10px 8px;
+
 }
 .loginForm {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 }
 .loginForm .inputs {
-  height: 50px;
+  /* height: 50px; */
   font-size: 2rem;
   width: 50vw;
   border-radius: 1rem 0rem 1rem 0rem;
   border: none;
   padding: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 8px;
+
 }
 .links {
   /* width: 50%; */
@@ -43,12 +47,45 @@
   font-size: 1.5rem;
   font-weight: 500;
 }
-.btn {
+.registerBtn {
   font-size: 2rem;
-  background-color: rgba(168, 132, 74, 0.952);
+  font-weight: 600;
+  /* background-color: rgba(168, 132, 74, 0.952); */
+  background-color: rgba(6, 214, 242, 0.903);
+  outline: none;
   border: none;
   padding: 1rem;
   border-radius: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 8px;
   cursor: pointer;
+  width: 52vw;
+  color: rgb(255, 255, 255);
+  
+  
+}
+.upload{
+  /* font-size: 2rem; */
+  font-weight: 600;
+  /* background-color: rgba(168, 132, 74, 0.952); */
+  background-color: rgba(6, 214, 242, 0.903);
+  outline: none;
+  border: none;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 8px;
+  cursor: pointer;
+  /* width: 52vw; */
+  width: 40%;
+  color: rgb(255, 255, 255);
+  
+}
+.input-group{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+label{
+  color: rgb(255, 255, 255);
+
 }

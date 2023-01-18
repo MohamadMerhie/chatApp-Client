@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import './setPass.css'
 const SetPassword = ({
   setIsVerified,
   isVerified,
@@ -37,17 +38,19 @@ const SetPassword = ({
     }
   };
   return (
-    <div>
-      <h1>Set Password</h1>
-      <form onSubmit={resetPassword}>
+    <div className="setPass">
+      <h1 className="header">Set Password</h1>
+      <form onSubmit={resetPassword}className="setPassForm" >
         <input
+        className="setPassInputs"
+        
           type="password"
           placeholder="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />
-        <input type="submit" value="reset" />
+        <input type="submit" value="reset" className="setPassBtn"/>
       </form>
     </div>
   );
