@@ -3,7 +3,7 @@ import "./Search.css";
 import "./chatApp.css";
 import image from "./Avatar.webp";
 import Conversation from "./Conversation.js";
-import { format } from "timeago.js";
+// import { format } from "timeago.js";
 const imagePath = "http://localhost:4000/";
 const ChatApp = ({ user, setLoggedIn, allUsers }) => {
   const [users, setUsers] = useState([]);
@@ -14,7 +14,6 @@ const ChatApp = ({ user, setLoggedIn, allUsers }) => {
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [textMessage, setTextMessage] = useState("");
-  const [imageProfile, setImageProfile] = useState("");
   const scroll = useRef();
   const [lastSeen, setLastSeen] = useState(null);
   useEffect(() => {
@@ -91,13 +90,12 @@ const ChatApp = ({ user, setLoggedIn, allUsers }) => {
       }
     };
     getMessages();
-  }, [currentChat]);
+  });
 
   const submitTextMessageHandler = async (event) => {
     event.preventDefault();
     console.log(event);
 
-    console.log(imageProfile);
     try {
       const response = await fetch("http://localhost:4000/messages", {
         method: "POST",
@@ -140,7 +138,6 @@ const ChatApp = ({ user, setLoggedIn, allUsers }) => {
       console.log(error);
     }
   };
-  console.log(new Date().toLocaleString());
   return (
     <>
       <div className="chatApp">
@@ -216,10 +213,15 @@ const ChatApp = ({ user, setLoggedIn, allUsers }) => {
           {/* ---------------------------------------- */}
           <div className="chats1">
             <div className="imageContainer">
-              
-               <a href={chatHeaderUser?.profilePicture
+              <a
+           
+                href={
+                  chatHeaderUser?.profilePicture
                     ? imagePath + chatHeaderUser.profilePicture
-                    : image}  target="_blank" >
+                    : image
+                }
+                target="_blank" rel="noreferrer"
+              >
                 <img
                   src={
                     chatHeaderUser?.profilePicture
@@ -240,7 +242,7 @@ const ChatApp = ({ user, setLoggedIn, allUsers }) => {
                 {chatHeaderUser
                   ? chatHeaderUser.isOnline
                     ? "Online"
-                    : "last seen " + format(new Date(chatHeaderUser.lastSeen))
+                    : "last seen " /* + format(new Date(chatHeaderUser.lastSeen)) */
                   : "We hope to see you always"}
                 {
                   // console.log(format(chatHeaderUser.lastSeen))
@@ -284,7 +286,7 @@ const ChatApp = ({ user, setLoggedIn, allUsers }) => {
                       <div className="message">
                         {message.text}
                         <span className="timeAgo">
-                          {format(new Date(message?.createdAt))}
+                          {/* {format(new Date(message?.createdAt))} */}
 
                           {/* {format(message.createdAt)} */}
                         </span>{" "}
