@@ -10,7 +10,7 @@ import SetPassword from "./components/auth/SetPassword";
 import Home from "./pages/Home";
 import image from "./Avatar.webp";
 const imagePath = "http://localhost:4000/";
-let off;
+
 function App() {
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
