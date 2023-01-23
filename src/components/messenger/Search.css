@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
   z-index: 10000;
-  overflow-y: hidden;
+  overflow-y:auto;
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
 }

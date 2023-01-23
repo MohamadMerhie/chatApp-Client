@@ -13,7 +13,7 @@ const Login = ({ setLoggedIn, setUser, user }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
-          password
+          password,
         }),
         credentials: "include",
       });
@@ -51,21 +51,14 @@ const Login = ({ setLoggedIn, setUser, user }) => {
 
         <input type="submit" value="login" className="loginBtn" />
         <div className="links">
-         
-          <Link to="/users/resetpassword" className="loginLink">
+          <Link to="/resetpassword" className="loginLink">
             Forget password?
           </Link>
 
-
-          <Link to="/users/register" className="loginLink">
+          <Link to="/register" className="loginLink">
             Not registered? SignUp
           </Link>
-          
-
-
-
         </div>
-
       </form>
     </div>
   );

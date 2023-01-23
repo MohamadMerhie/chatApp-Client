@@ -1,13 +1,9 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 import SetPassword from "./SetPassword";
-import './resetpasswors.css'
-const ResetPassword = ({
-  setIsVerified,
-  isVerified,
-}) => {
+import "./resetpasswors.css";
+const ResetPassword = ({ isVerified }) => {
   const [email, setEmail] = useState();
-  const navigate = useNavigate();
 
   const resetPassword = async (event) => {
     try {
@@ -36,21 +32,25 @@ const ResetPassword = ({
 
   console.log("versuch");
   return (
-    <>{!isVerified ?( <div className="resetPasword">
-      <h1 className="header">Reset Password</h1>
-      <form onSubmit={resetPassword} className="setPassForm">
-        <input
-          type="email"
-          className="setPassInputs"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <br />
-        <input type="submit" value="reset" className="setPassBtn" />
-      </form>
-    </div>):(<SetPassword/>)}
-     
+    <>
+      {!isVerified ? (
+        <div className="resetPasword">
+          <h1 className="header">Reset Password</h1>
+          <form onSubmit={resetPassword} className="setPassForm">
+            <input
+              type="email"
+              className="setPassInputs"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <br />
+            <input type="submit" value="reset" className="setPassBtn" />
+          </form>
+        </div>
+      ) : (
+        <SetPassword />
+      )}
     </>
   );
 };
